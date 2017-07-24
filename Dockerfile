@@ -10,8 +10,11 @@ RUN gem install aws-sdk --no-rdoc --no-ri
 # Make sure decent fonts are installed. Thanks to http://www.dailylinuxnews.com/blog/2014/09/things-to-do-after-installing-debian-jessie/
 RUN echo "deb http://ftp.us.debian.org/debian jessie main contrib non-free" | tee -a /etc/apt/sources.list
 RUN echo "deb http://security.debian.org/ jessie/updates contrib non-free" | tee -a /etc/apt/sources.list
-RUN apt-get update
-RUN apt-get install -y ttf-freefont ttf-mscorefonts-installer ttf-bitstream-vera ttf-dejavu ttf-liberation
+COPY phantomjs_hawk.sh /phantomjs_hawk.sh
+RUN chmod 755 /phantomjs_hawk.sh && \
+    apt-get update && \
+    apt-get install -y ttf-freefont ttf-mscorefonts-installer ttf-bitstream-vera ttf-dejavu ttf-liberation
+
 WORKDIR /app
 ENTRYPOINT [ "wraith", "capture" ]
 CMD [ "configs/capture.yaml" ]
